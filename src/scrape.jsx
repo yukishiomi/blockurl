@@ -42,6 +42,13 @@ class Scrape extends React.Component {
   }
 
   handleSubmit = () => {
+    axios.get('http://localhost:3002/api/v2/prohibitions/scrape', {
+      params:{
+        url: this.state.url
+      }
+    }).then(res => {
+      console.log(res)
+    })
   }
 
   handleCreate = () => {
@@ -56,6 +63,7 @@ class Scrape extends React.Component {
   }
 
   render() {
+    {console.log('test')}
     return(
       <div>
         <p>URLを入力</p>
