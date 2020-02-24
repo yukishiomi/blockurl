@@ -47,7 +47,16 @@ class Scrape extends React.Component {
         url: this.state.url
       }
     }).then(res => {
-      console.log(res)
+      const list = this.state.proList.slice()
+      const array = res.data.data
+      array.map(data => {
+        list.push(data)
+      })
+      chrome.storage.local.set({'prohibition': list})
+      this.setState({
+        url: '',
+        proList: list
+      })
     })
   }
 
