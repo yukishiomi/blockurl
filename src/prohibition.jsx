@@ -7,6 +7,7 @@ const Prohibition = (props) => {
         return(
           <li key={index}>
             {list}
+            <input type="button" value="削除" onClick={(e) => props.handleDeleteClick(index, e)} />
           </li>
         )
       })}
