@@ -41,13 +41,31 @@ class Scrape extends React.Component {
     })
   }
 
+  handleDeleteClick = (index) => {
+    const list = this.state.proList.slice()
+    list.splice(index, 1)
+    chrome.storage.local.set({'prohibition': list})
+    this.setState({
+      proList: list
+    })
+  }
+
   handleSubmit = () => {
     axios.get('http://localhost:3002/api/v2/prohibitions/scrape', {
       params:{
         url: this.state.url
       }
     }).then(res => {
-      console.log(res)
+      const list = this.state.proList.slice()
+      const array = res.data.data
+      array.map(data => {
+        list.push(data)
+      })
+      chrome.storage.local.set({'prohibition': list})
+      this.setState({
+        url: '',
+        proList: list
+      })
     })
   }
 
@@ -72,7 +90,7 @@ class Scrape extends React.Component {
         <p>禁止URLを入力</p>
         <input value={this.state.prohibition} onChange={this.handleProChange} type="text" />
         <input type="submit" onClick={this.handleCreate} value="登録" />
-        <Prohibition proList={this.state.proList} />
+        <Prohibition proList={this.state.proList} handleDeleteClick={this.handleDeleteClick} />
       </div>
     )
   }
